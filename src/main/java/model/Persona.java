@@ -6,13 +6,11 @@ public class Persona {
     private String nome;
     private String cognome;
     private Indirizzo indirizzo;
-    private List<Cane> cani;
 
-    public Persona(String nome, String cognome, Indirizzo indirizzo, List<Cane> cani) {
+    public Persona(String nome, String cognome, Indirizzo indirizzo) {
         this.nome = nome;
         this.cognome = cognome;
         this.indirizzo = indirizzo;
-        this.cani = cani;
     }
 
     public String getNome() {
@@ -37,13 +35,5 @@ public class Persona {
 
     public void setIndirizzo(Indirizzo indirizzo) {
         this.indirizzo = indirizzo;
-    }
-
-    public List<Cane> getCani() {
-        return cani;
-    }
-
-    public void setCani(List<Cane> cani) {
-        this.cani = cani;
     }
 }

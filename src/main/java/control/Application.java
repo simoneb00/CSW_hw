@@ -48,25 +48,7 @@ public class Application {
                 System.out.println("Inserisci l'indirizzo: ");
                 String personAddressName = scanner.nextLine();
                 Indirizzo personAddress = new Indirizzo(personAddressName);
-                List<Cane> dogs = new ArrayList<>();
-                /*
-                while (true) {
-                    System.out.println("Inserisci il nome del cane: ");
-                    String dogName = scanner.nextLine();
-                    System.out.println("Inserisci la razza del cane: ");
-                    String dogRace = scanner.nextLine();
-                    Persona owner = new Persona(name, lastname, personAddress, null);
-                    dogs.add(new Cane(dogName, dogRace, owner));
-                    System.out.println("La persona possiede altri cani? (y per continuare, qualsiasi altro tasto per uscire) ");
-                    String response = scanner.next();
-                    scanner.nextLine();
-                    if (response.equals("y") || response.equals("Y"))
-                        continue;
-                    else
-                        break;
-                }
-                 */
-                Persona person = new Persona(name, lastname, personAddress, dogs);
+                Persona person = new Persona(name, lastname, personAddress);
                 try {
                     personaDao.insert(person);
                 } catch (NonExistentAddressException e) {
@@ -87,7 +69,7 @@ public class Application {
                 System.out.println("Inserisci l'indirizzo del padrone: ");
                 String addressNameOwner = scanner.nextLine();
                 Indirizzo addressOwner = new Indirizzo(addressNameOwner);
-                Persona owner = new Persona(nameOwner, lastnameOwner, addressOwner, null);
+                Persona owner = new Persona(nameOwner, lastnameOwner, addressOwner);
                 Cane dog = new Cane(dogName, race, owner);
 
                 try {
@@ -97,10 +79,45 @@ public class Application {
                 }
 
                 break;
+
+            default:
+                break;
         }
 
     }
-    private static void select() {}
+    private static void select() {
+        System.out.println("Seleziona un'operazione:\n" +
+                "0 - Trova le persone che vivono presso un indirizzo\n" +
+                "1 - Trova i cani posseduti da una persona\n" +
+                "2 - Indietro\n"
+        );
+        int code = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (code) {
+            case 0:
+                System.out.println("***** Trova le persone che vivono presso un indirizzo *****");
+                System.out.println("Inserisci un indirizzo: ");
+                String addressName = scanner.nextLine();
+                Indirizzo address = new Indirizzo(addressName);
+                personaDao.findPeopleLivingAtAddress(address);
+                break;
+            case 1:
+                System.out.println("***** Trova i cani posseduti da una persona *****");
+                System.out.println("Inserisci il nome della persona: ");
+                String name = scanner.nextLine();
+                System.out.println("Inserisci il cognome della persona: ");
+                String lastname = scanner.nextLine();
+                System.out.println("Inserisci l'indirizzo della persona: ");
+                addressName = scanner.nextLine();
+                address = new Indirizzo(addressName);
+                Persona person = new Persona(name, lastname, address);
+                caneDao.findDogsByOwner(person);
+                break;
+            default:
+                break;
+        }
+    }
 
     public static void main(String[] args) {
         // create DB and tables

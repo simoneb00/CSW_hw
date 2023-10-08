@@ -32,4 +32,26 @@ public class PersonaDao {
             e.printStackTrace();
         }
     }
+
+    public void findPeopleLivingAtAddress(Indirizzo address) {
+        try {
+            Connection connection = DriverManager.getConnection(dbURL, username, password);
+
+            String query = "SELECT nome, cognome FROM Persona WHERE indirizzo = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, address.getNome());
+            ResultSet resultSet = statement.executeQuery();
+
+            if (!resultSet.next()) {
+                System.out.println("Nessuna persona vive in questo indirizzo");
+            } else {
+                while (resultSet.next()) {
+                    System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
+                }
+                System.out.println("\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
