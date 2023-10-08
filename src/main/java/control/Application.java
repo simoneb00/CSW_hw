@@ -3,6 +3,7 @@ package control;
 import dao.CaneDao;
 import dao.IndirizzoDao;
 import dao.PersonaDao;
+import exceptions.DuplicateEntryException;
 import exceptions.NonExistentAddressException;
 import exceptions.NonExistentPersonException;
 import model.Cane;
@@ -30,58 +31,68 @@ public class Application {
         int code = scanner.nextInt();
         scanner.nextLine();
 
-        switch (code) {
-            case 0:
-                System.out.println("***** Inserimento di un nuovo indirizzo *****\n");
-                System.out.println("Inserisci l'indirizzo: ");
-                String addressName = scanner.nextLine();
-                Indirizzo address = new Indirizzo(addressName);
-                indirizzoDao.insert(address);
-                break;
-            case 1:
-                System.out.println("***** Inserimento di una nuova persona *****\n");
-                System.out.println("Inserisci il nome: ");
-                String name = scanner.next();
-                System.out.println("Inserisci il cognome: ");
-                String lastname = scanner.next();
-                scanner.nextLine();
-                System.out.println("Inserisci l'indirizzo: ");
-                String personAddressName = scanner.nextLine();
-                Indirizzo personAddress = new Indirizzo(personAddressName);
-                Persona person = new Persona(name, lastname, personAddress);
-                try {
-                    personaDao.insert(person);
-                } catch (NonExistentAddressException e) {
-                    System.err.println("Errore: l'indirizzo specificato non esiste.");
-                }
-                break;
+        try {
+            switch (code) {
+                case 0:
+                    System.out.println("***** Inserimento di un nuovo indirizzo *****\n");
+                    System.out.println("Inserisci l'indirizzo: ");
+                    String addressName = scanner.nextLine();
+                    System.out.println("Inserisci la città");
+                    String city = scanner.nextLine();
+                    Indirizzo address = new Indirizzo(addressName, city);
+                    indirizzoDao.insert(address);
+                    break;
+                case 1:
+                    System.out.println("***** Inserimento di una nuova persona *****\n");
+                    System.out.println("Inserisci il nome: ");
+                    String name = scanner.next();
+                    System.out.println("Inserisci il cognome: ");
+                    String lastname = scanner.next();
+                    scanner.nextLine();
+                    System.out.println("Inserisci l'indirizzo: ");
+                    String personAddressName = scanner.nextLine();
+                    System.out.println("Inserisci la città");
+                    city = scanner.nextLine();
+                    Indirizzo personAddress = new Indirizzo(personAddressName, city);
+                    Persona person = new Persona(name, lastname, personAddress);
+                    try {
+                        personaDao.insert(person);
+                    } catch (NonExistentAddressException e) {
+                        System.err.println("Errore: l'indirizzo specificato non esiste oppure questa entry è già stata inserita.");
+                    }
+                    break;
 
-            case 2:
-                System.out.println("***** Inserimento di un nuovo cane *****");
-                System.out.println("Inserisci il nome: ");
-                String dogName = scanner.nextLine();
-                System.out.println("Inserisci la razza: ");
-                String race = scanner.nextLine();
-                System.out.println("Inserisci il nome del padrone: ");
-                String nameOwner = scanner.nextLine();
-                System.out.println("Inserisci il cognome del padrone: ");
-                String lastnameOwner = scanner.nextLine();
-                System.out.println("Inserisci l'indirizzo del padrone: ");
-                String addressNameOwner = scanner.nextLine();
-                Indirizzo addressOwner = new Indirizzo(addressNameOwner);
-                Persona owner = new Persona(nameOwner, lastnameOwner, addressOwner);
-                Cane dog = new Cane(dogName, race, owner);
+                case 2:
+                    System.out.println("***** Inserimento di un nuovo cane *****");
+                    System.out.println("Inserisci il nome: ");
+                    String dogName = scanner.nextLine();
+                    System.out.println("Inserisci la razza: ");
+                    String race = scanner.nextLine();
+                    System.out.println("Inserisci il nome del padrone: ");
+                    String nameOwner = scanner.nextLine();
+                    System.out.println("Inserisci il cognome del padrone: ");
+                    String lastnameOwner = scanner.nextLine();
+                    System.out.println("Inserisci l'indirizzo del padrone: ");
+                    String addressNameOwner = scanner.nextLine();
+                    System.out.println("Inserisci la città");
+                    city = scanner.nextLine();
+                    Indirizzo addressOwner = new Indirizzo(addressNameOwner, city);
+                    Persona owner = new Persona(nameOwner, lastnameOwner, addressOwner);
+                    Cane dog = new Cane(dogName, race, owner);
 
-                try {
-                    caneDao.insert(dog);
-                } catch (NonExistentPersonException e) {
-                    System.err.println("Errore: la persona specificata (o il suo indirizzo) non esistono, oppure l'indirizzo è sbagliato.");
-                }
+                    try {
+                        caneDao.insert(dog);
+                    } catch (NonExistentPersonException e) {
+                        System.err.println("Errore: la persona specificata (o il suo indirizzo) non esistono, oppure l'indirizzo è sbagliato, oppure la entry è già stata inserita.");
+                    }
 
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
+        } catch (DuplicateEntryException e) {
+            System.err.println("Errore: entry duplicata.\n");
         }
 
     }
@@ -97,9 +108,11 @@ public class Application {
         switch (code) {
             case 0:
                 System.out.println("***** Trova le persone che vivono presso un indirizzo *****");
-                System.out.println("Inserisci un indirizzo: ");
+                System.out.println("Inserisci l'indirizzo: ");
                 String addressName = scanner.nextLine();
-                Indirizzo address = new Indirizzo(addressName);
+                System.out.println("Inserisci la città: ");
+                String city = scanner.nextLine();
+                Indirizzo address = new Indirizzo(addressName, city);
                 personaDao.findPeopleLivingAtAddress(address);
                 break;
             case 1:
@@ -110,7 +123,7 @@ public class Application {
                 String lastname = scanner.nextLine();
                 System.out.println("Inserisci l'indirizzo della persona: ");
                 addressName = scanner.nextLine();
-                address = new Indirizzo(addressName);
+                address = new Indirizzo(addressName, null);
                 Persona person = new Persona(name, lastname, address);
                 caneDao.findDogsByOwner(person);
                 break;

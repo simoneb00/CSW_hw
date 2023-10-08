@@ -17,7 +17,7 @@ public class CaneDao {
         try {
             Connection connection = DriverManager.getConnection(dbURL, username, password);
 
-            String query = "INSERT INTO Cane (nome, razza, nome_padrone, cognome_padrone, indirizzo_padrone) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Cane (nome, razza, nome_padrone, cognome_padrone, nome_indirizzo_padrone) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, dog.getNome());
             statement.setString(2, dog.getRazza());
@@ -40,22 +40,19 @@ public class CaneDao {
         try {
             Connection connection = DriverManager.getConnection(dbURL, username, password);
 
-            String query = "SELECT nome, razza FROM Cane WHERE nome_padrone = ? and cognome_padrone = ? and indirizzo_padrone = ?";
+            String query = "SELECT nome, razza FROM Cane WHERE nome_padrone = ? and cognome_padrone = ? and nome_indirizzo_padrone = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, owner.getNome());
             statement.setString(2, owner.getCognome());
             statement.setString(3, owner.getIndirizzo().getNome());
             ResultSet resultSet = statement.executeQuery();
 
-            if (!resultSet.next()) {
-                System.out.println("Nessun risultato trovato.\n");
-            } else {
-                while (resultSet.next()) {
-                    System.out.println("Nome      Razza");
-                    System.out.println(resultSet.getString(1) + "     " + resultSet.getString(2));
-                }
-                System.out.println("\n");
+            System.out.println("\nRisultati:");
+            while (resultSet.next()) {
+                System.out.println("Nome      Razza");
+                System.out.println(resultSet.getString(1) + "     " + resultSet.getString(2));
             }
+            System.out.println("\n");
         } catch (SQLException e) {
             e.printStackTrace();
         }

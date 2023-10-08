@@ -16,11 +16,12 @@ public class PersonaDao {
         try {
             Connection connection = DriverManager.getConnection(dbURL, username, password);
 
-            String query = "INSERT INTO Persona (nome, cognome, indirizzo) VALUES (?, ?, ?)";
+            String query = "INSERT INTO Persona (nome, cognome, nome_indirizzo, città_indirizzo) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, person.getNome());
             statement.setString(2, person.getCognome());
             statement.setString(3, person.getIndirizzo().getNome());
+            statement.setString(4, person.getIndirizzo().getCittà());
             statement.executeUpdate();
 
             System.out.println("Record correttamente inserito\n");
@@ -37,19 +38,19 @@ public class PersonaDao {
         try {
             Connection connection = DriverManager.getConnection(dbURL, username, password);
 
-            String query = "SELECT nome, cognome FROM Persona WHERE indirizzo = ?";
+            String query = "SELECT nome, cognome FROM Persona WHERE nome_indirizzo = ? AND città_indirizzo = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, address.getNome());
+            statement.setString(2, address.getCittà());
             ResultSet resultSet = statement.executeQuery();
 
-            if (!resultSet.next()) {
-                System.out.println("Nessuna persona vive in questo indirizzo");
-            } else {
-                while (resultSet.next()) {
-                    System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
-                }
-                System.out.println("\n");
+            System.out.println("\nRisultati:");
+
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
             }
+            System.out.println("\n");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
