@@ -1,13 +1,10 @@
 package hibernate.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "residenza")
+@Table(name = "residenza", uniqueConstraints = @UniqueConstraint(columnNames={"indirizzo", "città"}))
 public class Residenza implements Serializable {
 
     @Id
@@ -17,11 +14,11 @@ public class Residenza implements Serializable {
     private String città;
 
     @Column(nullable = false)
-    private int cap;
+    private String cap;
 
     protected Residenza() {}
 
-    public Residenza(String indirizzo, String città, int cap) {
+    public Residenza(String indirizzo, String città, String cap) {
         this.indirizzo = indirizzo;
         this.città = città;
         this.cap = cap;
@@ -43,11 +40,11 @@ public class Residenza implements Serializable {
         this.città = città;
     }
 
-    public int getCap() {
+    public String getCap() {
         return cap;
     }
 
-    public void setCap(int cap) {
+    public void setCap(String cap) {
         this.cap = cap;
     }
 }

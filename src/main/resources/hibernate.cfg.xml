@@ -15,7 +15,7 @@
         <property name="hibernate.show_sql">true</property>
 
         <!-- Crea automaticamente le tabelle se non esistono (solo per sviluppo) -->
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Mappa le classi di entità -->
         <mapping class="hibernate.model.Domicilio" />

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "domicilio")
+@Table(name = "domicilio", uniqueConstraints = @UniqueConstraint(columnNames={"indirizzo", "città"}))
 public class Domicilio implements Serializable {
 
     @Id
@@ -14,11 +14,11 @@ public class Domicilio implements Serializable {
     private String città;
 
     @Column(nullable = false)
-    private int cap;
+    private String cap;
 
     protected Domicilio() {}
 
-    public Domicilio(String indirizzo, String città, int cap) {
+    public Domicilio(String indirizzo, String città, String cap) {
         this.indirizzo = indirizzo;
         this.città = città;
         this.cap = cap;
@@ -40,11 +40,11 @@ public class Domicilio implements Serializable {
         this.città = città;
     }
 
-    public int getCap() {
+    public String getCap() {
         return cap;
     }
 
-    public void setCap(int cap) {
+    public void setCap(String cap) {
         this.cap = cap;
     }
 }
