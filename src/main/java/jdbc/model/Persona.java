@@ -1,6 +1,4 @@
-package model;
-
-import java.util.List;
+package jdbc.model;
 
 public class Persona {
     private String nome;

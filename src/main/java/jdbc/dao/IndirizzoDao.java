@@ -1,9 +1,8 @@
-package dao;
+package jdbc.dao;
 
-import exceptions.DuplicateEntryException;
-import model.Indirizzo;
+import jdbc.exceptions.DuplicateEntryException;
+import jdbc.model.Indirizzo;
 
-import javax.naming.Binding;
 import java.sql.*;
 
 public class IndirizzoDao {

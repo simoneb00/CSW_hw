@@ -1,18 +1,15 @@
-package control;
+package jdbc.control;
 
-import dao.CaneDao;
-import dao.IndirizzoDao;
-import dao.PersonaDao;
-import exceptions.DuplicateEntryException;
-import exceptions.NonExistentAddressException;
-import exceptions.NonExistentPersonException;
-import model.Cane;
-import model.Indirizzo;
-import model.Persona;
+import jdbc.dao.CaneDao;
+import jdbc.dao.IndirizzoDao;
+import jdbc.dao.PersonaDao;
+import jdbc.exceptions.DuplicateEntryException;
+import jdbc.exceptions.NonExistentAddressException;
+import jdbc.exceptions.NonExistentPersonException;
+import jdbc.model.Cane;
+import jdbc.model.Indirizzo;
+import jdbc.model.Persona;
 
-import java.security.KeyStore;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Application {

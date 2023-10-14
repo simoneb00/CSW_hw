@@ -1,9 +1,8 @@
-package dao;
+package jdbc.dao;
 
-import exceptions.NonExistentAddressException;
-import exceptions.NonExistentPersonException;
-import model.Cane;
-import model.Persona;
+import jdbc.exceptions.NonExistentPersonException;
+import jdbc.model.Cane;
+import jdbc.model.Persona;
 
 import java.sql.*;
 

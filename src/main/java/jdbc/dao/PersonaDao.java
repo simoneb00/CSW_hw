@@ -1,8 +1,8 @@
-package dao;
+package jdbc.dao;
 
-import exceptions.NonExistentAddressException;
-import model.Indirizzo;
-import model.Persona;
+import jdbc.exceptions.NonExistentAddressException;
+import jdbc.model.Indirizzo;
+import jdbc.model.Persona;
 
 import java.sql.*;
 

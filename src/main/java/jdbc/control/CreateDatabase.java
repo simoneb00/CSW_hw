@@ -1,4 +1,4 @@
-package control;
+package jdbc.control;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
